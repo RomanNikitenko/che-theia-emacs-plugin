@@ -71,3 +71,43 @@ Create a npm user and login to the npm registry, [more on npm publishing](https:
 Publish packages with lerna to update versions properly across local packages, [more on publishing with lerna](https://github.com/lerna/lerna#publish).
 
     npx lerna publish
+
+### Move command
+|Command | Desc |
+|--------|------|
+| `C-f` | Move forward |
+| `C-b` | Move backward |
+| `M-n` | Move to the next line (C+n - new tab in browser)|
+| `C-p` | Move to the previous line |
+| `C-a` | Move to the beginning of line |
+| `C-e` | Move to the end of line |
+| `M-f` | Move forward by one word unit |
+| `M-b` | Move backward by one word unit |
+| `M->` | Move to the end of buffer |
+| `M-<` | Move to the beginning of buffer |
+| `C-v` | Scroll down by one screen unit |
+| `M-v` | Scroll up by one screen unit |
+| `M-g` | Jump to line (command palette) |
+
+
+### Search Command
+|Command | Desc |
+|--------|------|
+| `C-s` | Search forward |
+| `C-r` | Search backward |
+| `C-M-n` | Add selection to next find match |
+
+### Edit command
+|Command | Desc |
+|--------|------|
+| `C-d` | Delete right (DEL) |
+| `C-h` | Delete left (BACKSPACE) |
+| `M-d` | Delete word |
+| `C-k` | Kill to line end |
+| `C-/`| Undo |
+| `C-;` | Toggle line comment in and out |
+| `M-;` | Toggle region comment in and out |
+
+### Chord keybindings
+Theia does not support chord keybindings properly at the moment(https://github.com/theia-ide/theia/blob/da4e14af3a1b8ac24d7ec3368161d70b225c8dd4/packages/monaco/src/browser/monaco-keybinding.ts#L44), 
+so keybindings for actions like 'Delete blank lines around'(Ctrl+X Ctrl+O) or 'Select All'(Ctrl+X H) are not implemented. 

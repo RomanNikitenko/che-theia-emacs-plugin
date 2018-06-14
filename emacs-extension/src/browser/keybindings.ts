@@ -18,11 +18,9 @@ export class EmacsKeyBindings {
     constructor() {
         this.keyBindings = {
             //TODO
-            // Theia does not support chord keybindings properly, so we can not implement
-            // keybindings for actions like 'Delete blank lines around'(Ctrl+X Ctrl+O)
-            //or 'Select All'(Ctrl+X H)
-            //see https://github.com/theia-ide/theia/blob/da4e14af3a1b8ac24d7ec3368161d70b225c8dd4/packages/monaco/src/browser/monaco-keybinding.ts#L44
-
+            //Theia does not support chord keybindings properly at the moment
+            //(https://github.com/theia-ide/theia/blob/da4e14af3a1b8ac24d7ec3368161d70b225c8dd4/packages/monaco/src/browser/monaco-keybinding.ts#L44),
+            //so keybindings for actions like 'Delete blank lines around'(Ctrl+X Ctrl+O) or 'Select All'(Ctrl+X H) are not implemented. 
 
             /*** Move commands ***/
             'cursorLeft': {
@@ -45,7 +43,7 @@ export class EmacsKeyBindings {
 
             'cursorDown': {
                 command: 'cursorDown',
-                keybinding: "alt+n",//because ctl+n - new tab in browser
+                keybinding: "alt+n",//ctrl+n - new tab in browser
                 context: 'editorTextFocus'
             },
 

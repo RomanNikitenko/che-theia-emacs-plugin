@@ -33,7 +33,7 @@ export class EmacsCommands {
             id: 'cursorDown',
             label: 'Move to the next line'
         },
-        
+
         {
             id: 'cursorHome',
             label: "Move to the beginning of line"
