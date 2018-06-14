@@ -10,11 +10,16 @@
  */
 
 import { ContainerModule } from "inversify";
-import { CommandContribution, MenuContribution } from "@theia/core/lib/common";
-import { EmacsCommandContribution, EmacsMenuContribution } from './emacs-contribution';
+import { CommandContribution } from "@theia/core/lib/common";
+import { KeybindingContribution } from '@theia/core/lib/browser';
+import { EmacsCommandContribution, EmacsKeybindingContribution } from './emacs-contribution';
+import { EmacsKeyBindings } from "./keybindings";
+import { EmacsCommands } from "./commands";
 
 export default new ContainerModule(bind => {
 
+    bind(EmacsCommands).toSelf().inSingletonScope();
+    bind(EmacsKeyBindings).toSelf().inSingletonScope();
     bind(CommandContribution).to(EmacsCommandContribution);
-    bind(MenuContribution).to(EmacsMenuContribution);
+    bind(KeybindingContribution).to(EmacsKeybindingContribution);
 });

@@ -9,43 +9,55 @@
  *   Red Hat, Inc. - initial API and implementation
  */
 
-import { injectable } from "inversify";
-import { CommandContribution, CommandRegistry, MenuContribution, MenuModelRegistry, MAIN_MENU_BAR } from "@theia/core/lib/common";
+import { injectable, inject } from "inversify";
+import { MonacoCommandRegistry } from '@theia/monaco/lib/browser/monaco-command-registry';
+import { KeybindingContribution, KeybindingRegistry, KeybindingScope, Keybinding } from '@theia/core/lib/browser';
+import { CommandContribution, CommandRegistry } from "@theia/core/lib/common";
+import MonacoKeybindingsRegistry = monaco.keybindings.KeybindingsRegistry;
+import { EmacsKeyBindings } from "./keybindings";
+import { EmacsCommands } from "./commands";
 
-export namespace EmacsCommands {
-    export const TestCommand = {
-        id: 'Test.command',
-        label: "test"
-    };
-}
-
-export namespace EmacsActions {
-    export const EMACS = [...MAIN_MENU_BAR, '0_emacs'];
-}
-
-//TODO the class is designed for demo only - should be removed
 @injectable()
 export class EmacsCommandContribution implements CommandContribution {
 
+    constructor(@inject(MonacoCommandRegistry) protected readonly monacoCommandRegistry: MonacoCommandRegistry,
+        @inject(EmacsCommands) protected readonly emacsCommands: EmacsCommands) {
+    }
+
     registerCommands(registry: CommandRegistry): void {
-        registry.registerCommand(EmacsCommands.TestCommand, {
-            execute: () => {
-                console.log('test emacs command');
+        this.emacsCommands.getCommands().forEach(command => {
+            const commandId = command.id;
+            const monacoCommand = this.monacoCommandRegistry.validate(commandId);
+            if (!monacoCommand) {
+                this.monacoCommandRegistry.registerCommand({ 'id': commandId }, { execute: editor => editor.commandService.executeCommand(commandId) });
             }
         });
-
     }
 }
 
 @injectable()
-export class EmacsMenuContribution implements MenuContribution {
+export class EmacsKeybindingContribution implements KeybindingContribution {
+    constructor(@inject(MonacoCommandRegistry) protected readonly monacoCommandRegistry: MonacoCommandRegistry,
+        @inject(EmacsKeyBindings) protected readonly emacsKeyBindings: EmacsKeyBindings) {
+    }
 
-    registerMenus(menus: MenuModelRegistry): void {
-        menus.registerSubmenu(EmacsActions.EMACS, 'EMACS');
+    registerKeybindings(registry: KeybindingRegistry): void {
+        const emacsKeyBindingList: Keybinding[] = [];
+        for (const item of MonacoKeybindingsRegistry.getDefaultKeybindings()) {
+            const commandId = item.command;
+            const emacsKeyBinding = this.emacsKeyBindings.getKeybinding(commandId);
+            if (emacsKeyBinding) {
+                emacsKeyBinding.command = this.monacoPrefix(emacsKeyBinding.command);
+                emacsKeyBindingList.push(emacsKeyBinding);
+            }
+        }
 
-        menus.registerMenuAction(EmacsActions.EMACS, {
-            commandId: EmacsCommands.TestCommand.id,
-            label: 'EMACS test'
-        });
+        if (emacsKeyBindingList.length > 0) {
+            registry.setKeymap(KeybindingScope.USER, emacsKeyBindingList);
+        }
+    }
+
+    private monacoPrefix(command: string): string {
+        return MonacoCommandRegistry.MONACO_COMMAND_PREFIX + command;
     }
 }

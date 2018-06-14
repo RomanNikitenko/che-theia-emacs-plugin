@@ -9,8 +9,8 @@
     "src"
   ],
   "dependencies": {
-    "@theia/core": "0.3.7",
-    "axios": "0.17.1"
+    "@theia/core": "0.3.10",
+    "@theia/monaco": "0.3.10"
   },
   "devDependencies": {
     "rimraf": "2.6.2",
@@ -24,8 +24,7 @@
   },
   "theiaExtensions": [
     {
-      "frontend": "lib/browser/emacs-frontend-module",
-      "backend": "lib/node/emacs-backend-module"
+      "frontend": "lib/browser/emacs-frontend-module"
     }
   ]
 }
