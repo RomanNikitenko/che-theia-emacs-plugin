@@ -13,7 +13,6 @@ import { injectable, inject } from "inversify";
 import { MonacoCommandRegistry } from '@theia/monaco/lib/browser/monaco-command-registry';
 import { KeybindingContribution, KeybindingRegistry, KeybindingScope, Keybinding } from '@theia/core/lib/browser';
 import { CommandContribution, CommandRegistry } from "@theia/core/lib/common";
-import MonacoKeybindingsRegistry = monaco.keybindings.KeybindingsRegistry;
 import { EmacsKeyBindings } from "./keybindings";
 import { EmacsCommands } from "./commands";
 
@@ -28,8 +27,8 @@ export class EmacsCommandContribution implements CommandContribution {
         this.emacsCommands.getCommands().forEach(command => {
             const commandId = command.id;
             const monacoCommand = this.monacoCommandRegistry.validate(commandId);
-            if (!monacoCommand) {
-                this.monacoCommandRegistry.registerCommand({ 'id': commandId }, { execute: editor => editor.commandService.executeCommand(commandId) });
+            if (!monacoCommand && !registry.getCommand(commandId)) {
+                this.monacoCommandRegistry.registerCommand({ 'id': commandId, 'label': command.label }, { execute: editor => editor.commandService.executeCommand(commandId) });
             }
         });
     }
@@ -42,14 +41,16 @@ export class EmacsKeybindingContribution implements KeybindingContribution {
     }
 
     registerKeybindings(registry: KeybindingRegistry): void {
+        this.resolveChordKeyBindings(registry);
+
         const emacsKeyBindingList: Keybinding[] = [];
-        for (const item of MonacoKeybindingsRegistry.getDefaultKeybindings()) {
-            const commandId = item.command;
-            const emacsKeyBinding = this.emacsKeyBindings.getKeybinding(commandId);
-            if (emacsKeyBinding) {
-                emacsKeyBinding.command = this.monacoPrefix(emacsKeyBinding.command);
-                emacsKeyBindingList.push(emacsKeyBinding);
+        for (const item of this.emacsKeyBindings.getKeybindings()) {
+            const commandId = this.monacoCommandRegistry.validate(item.command);
+            if (commandId) {
+                item.command = commandId;
             }
+
+            emacsKeyBindingList.push(item);
         }
 
         if (emacsKeyBindingList.length > 0) {
@@ -57,7 +58,22 @@ export class EmacsKeybindingContribution implements KeybindingContribution {
         }
     }
 
-    private monacoPrefix(command: string): string {
-        return MonacoCommandRegistry.MONACO_COMMAND_PREFIX + command;
+    private resolveChordKeyBindings(registry: KeybindingRegistry) {
+        let bindings = registry.getKeybindingsForKeySequence([EmacsKeyBindings.CTRL_X_CHORD_PREFIX]).full;
+        if (bindings.length == 0) {
+            return;
+        }
+
+        for (const binding of bindings) {
+            const commandId = binding.command;
+            if (commandId == KeybindingRegistry.PASSTHROUGH_PSEUDO_COMMAND) {
+                continue;
+            }
+
+            const emacsKeybinding = this.emacsKeyBindings.getKeybindingsForCommand(commandId).pop();
+            if (emacsKeybinding) {
+                binding.keybinding = emacsKeybinding.keybinding;
+            }
+        }
     }
 }

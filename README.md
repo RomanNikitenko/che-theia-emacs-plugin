@@ -71,6 +71,9 @@ Create a npm user and login to the npm registry, [more on npm publishing](https:
 Publish packages with lerna to update versions properly across local packages, [more on publishing with lerna](https://github.com/lerna/lerna#publish).
 
     npx lerna publish
+    
+### Operation
+Use Shift+DEL to cut to clipboard, Shift+Insert to paste from clipboard.
 
 ### Move command
 |Command | Desc |
@@ -87,7 +90,7 @@ Publish packages with lerna to update versions properly across local packages, [
 | `M-<` | Move to the beginning of buffer |
 | `C-v` | Scroll down by one screen unit |
 | `M-v` | Scroll up by one screen unit |
-| `M-g` | Jump to line (command palette) |
+| `M-g g` | Jump to line (command palette) |
 
 
 ### Search Command
@@ -104,10 +107,14 @@ Publish packages with lerna to update versions properly across local packages, [
 | `C-h` | Delete left (BACKSPACE) |
 | `M-d` | Delete word |
 | `C-k` | Kill to line end |
-| `C-/`| Undo |
+| `C-x h`| Select All |
+| `C-x u (C-/)`| Undo |
 | `C-;` | Toggle line comment in and out |
 | `M-;` | Toggle region comment in and out |
 
-### Chord keybindings
-Theia does not support chord keybindings properly at the moment(https://github.com/theia-ide/theia/blob/da4e14af3a1b8ac24d7ec3368161d70b225c8dd4/packages/monaco/src/browser/monaco-keybinding.ts#L44), 
-so keybindings for actions like 'Delete blank lines around'(Ctrl+X Ctrl+O) or 'Select All'(Ctrl+X H) are not implemented. 
+### Other command
+|Command | Desc |
+|--------|------|
+| `M-x` | Open command palette |
+| `C-x C-s` | Save |
+| `C-x b` | QuickOpen a file |

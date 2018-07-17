@@ -8,181 +8,216 @@
  * Contributors:
  *   Red Hat, Inc. - initial API and implementation
  */
-import { Keybinding } from "@theia/core/lib/browser";
+import { Keybinding, KeyCode, Key, KeyModifier } from "@theia/core/lib/browser";
 import { injectable } from "inversify";
 
 @injectable()
 export class EmacsKeyBindings {
-    private keyBindings: { [key: string]: Keybinding } = {};
+    static readonly CTRL_X_CHORD_PREFIX = KeyCode.createKeyCode({ first: Key.KEY_X, modifiers: [KeyModifier.CtrlCmd] });
+
+    private keyBindings: Keybinding[] = [];
 
     constructor() {
-        this.keyBindings = {
-            //TODO
-            //Theia does not support chord keybindings properly at the moment
-            //(https://github.com/theia-ide/theia/blob/da4e14af3a1b8ac24d7ec3368161d70b225c8dd4/packages/monaco/src/browser/monaco-keybinding.ts#L44),
-            //so keybindings for actions like 'Delete blank lines around'(Ctrl+X Ctrl+O) or 'Select All'(Ctrl+X H) are not implemented. 
-
+        this.keyBindings = [
             /*** Move commands ***/
-            'cursorLeft': {
+            {
                 command: 'cursorLeft',
                 keybinding: "ctrl+b",
                 context: 'editorTextFocus'
             },
 
-            'cursorRight': {
+            {
                 command: 'cursorRight',
                 keybinding: "ctrl+f",
                 context: 'editorTextFocus'
             },
 
-            'cursorUp': {
+            {
                 command: 'cursorUp',
                 keybinding: "ctrl+p",
                 context: 'editorTextFocus'
             },
 
-            'cursorDown': {
+            {
                 command: 'cursorDown',
                 keybinding: "alt+n",//ctrl+n - new tab in browser
                 context: 'editorTextFocus'
             },
 
-            //check
-            'cursorHome': {
+            {
                 command: 'cursorHome',
                 keybinding: "ctrl+a",
                 context: 'editorTextFocus'
             },
 
-            'cursorEnd': {
+            {
                 command: 'cursorEnd',
                 keybinding: "ctrl+e",
                 context: 'editorTextFocus'
             },
 
-            'cursorWordEndRight': {
+            {
                 command: 'cursorWordEndRight',
                 keybinding: "alt+f",
                 context: 'editorTextFocus'
             },
 
-            'cursorWordStartLeft': {
+            {
                 command: 'cursorWordStartLeft',
                 keybinding: "alt+b",
                 context: 'editorTextFocus'
             },
 
-            //check
-            'cursorBottom': {
+            {
                 command: 'cursorBottom',
                 keybinding: "shift+alt+.",
                 context: 'editorTextFocus'
             },
 
-            'cursorTop': {
+            //check
+            {
                 command: 'cursorTop',
                 keybinding: "shift+alt+,",
                 context: 'editorTextFocus'
             },
 
-            'cursorPageDown': {
+            {
                 command: 'cursorPageDown',
                 keybinding: "ctrl+v",
                 context: 'editorTextFocus'
             },
 
-            'cursorPageUp': {
+            {
                 command: 'cursorPageUp',
                 keybinding: "alt+v",
                 context: 'editorTextFocus'
             },
 
-            'editor.action.gotoLine': {
+            {
                 command: 'editor.action.gotoLine',
-                keybinding: "alt+g",
+                keybinding: "alt+g g",
                 context: 'editorTextFocus'
             },
 
             /*** Search commands ***/
-            'editor.action.nextMatchFindAction': {
+            {
                 command: 'editor.action.nextMatchFindAction',
-                keybinding: "ctrl+s",
+                keybinding: "ctrlcmd+s",
                 context: 'editorTextFocus'
             },
 
-            'editor.action.previousMatchFindAction': {
+            {
                 command: 'editor.action.previousMatchFindAction',
                 keybinding: "ctrl+r",
                 context: 'editorTextFocus'
             },
 
-            'editor.action.addSelectionToNextFindMatch': {
+            {
                 command: 'editor.action.addSelectionToNextFindMatch',
                 keybinding: "ctrl+alt+n",
                 context: 'editorTextFocus'
             },
 
             /*** Edit commands ***/
-            'deleteRight': {
+            {
                 command: 'deleteRight',
                 keybinding: "ctrl+d",
                 context: 'editorTextFocus'
             },
 
-            'deleteLeft': {
+            {
                 command: 'deleteLeft',
                 keybinding: "ctrl+h",
                 context: 'editorTextFocus'
             },
 
-            'deleteWordRight': {
+            {
                 command: 'deleteWordRight',
                 keybinding: "alt+d",
                 context: 'editorTextFocus'
             },
 
-            //check
-            'deleteAllRight': {
+            {
                 command: 'deleteAllRight',
                 keybinding: "ctrl+k",
                 context: 'editorTextFocus'
             },
 
-            'editor.action.insertLineAfter': {
+            {
                 command: 'editor.action.insertLineAfter',
                 keybinding: "ctrl+j",
                 context: 'editorTextFocus'
             },
 
-            'undo': {
+            {
                 command: 'undo',
                 keybinding: "ctrl+/",
                 context: 'editorTextFocus'
             },
 
-            'editor.action.commentLine': {
+            {
+                command: 'undo',
+                keybinding: "ctrlcmd+x u",
+                context: 'editorTextFocus'
+            },
+
+            {
+                command: 'editor.action.selectAll',
+                keybinding: "ctrlcmd+x h",
+                context: 'editorTextFocus'
+            },
+
+            {
                 command: 'editor.action.commentLine',
                 keybinding: "ctrl+;",
                 context: 'editorTextFocus'
             },
 
-            'editor.action.blockComment': {
+            {
                 command: 'editor.action.blockComment',
                 keybinding: "alt+;",
                 context: 'editorTextFocus'
+            },
+
+            {
+                command: 'core.cut',
+                keybinding: "shift+delete",
+                context: 'editorTextFocus'
+            },
+
+            /*** Other commands ***/
+            {
+                command: 'quickCommand',
+                keybinding: "alt+x"
+            },
+
+            {
+                command: 'core.save',
+                keybinding: "ctrlcmd+x ctrlcmd+s"
+            },
+
+            {
+                command: 'file-search.openFile',
+                keybinding: "ctrl+x b"
             }
-        }
+        ]
     }
 
-    getKeybinding(commandId: string): Keybinding | undefined {
-        const keybinding = this.keyBindings[commandId];
-        if (keybinding) {
-            return {
-                'command': keybinding.command,
-                'keybinding': keybinding.keybinding,
-                'context': keybinding.context
-            };
+    getKeybindingsForCommand(commandId: string): Keybinding[] {
+        const result: Keybinding[] = [];
+        for (const keybinding of this.keyBindings) {
+            if (keybinding.command === commandId) {
+                result.push({
+                    command: keybinding.command,
+                    keybinding: keybinding.keybinding,
+                    context: keybinding.context
+                });
+            }
         }
-        return undefined;
+        return result;
+    }
+
+    getKeybindings(): Keybinding[] {
+        return Array.from(this.keyBindings);
     }
 }

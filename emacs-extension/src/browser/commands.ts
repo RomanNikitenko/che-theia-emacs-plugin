@@ -120,6 +120,11 @@ export class EmacsCommands {
         },
 
         {
+            id: 'editor.action.selectAll',
+            label: "Select All"
+        },
+
+        {
             id: 'undo',
             label: "Undo"
         },
@@ -132,6 +137,16 @@ export class EmacsCommands {
         {
             id: 'editor.action.blockComment',
             label: "Toggle region comment in and out"
+        },
+
+        {
+            id: 'quickCommand',
+            label: "Open command palette"
+        },
+
+        {
+            id: 'core.save',
+            label: "Save"
         }
     ]
 
