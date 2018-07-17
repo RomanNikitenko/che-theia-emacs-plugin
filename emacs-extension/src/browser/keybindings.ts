@@ -74,7 +74,6 @@ export class EmacsKeyBindings {
                 context: 'editorTextFocus'
             },
 
-            //check
             {
                 command: 'cursorTop',
                 keybinding: "shift+alt+,",
