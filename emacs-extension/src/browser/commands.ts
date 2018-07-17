@@ -60,7 +60,7 @@ export class EmacsCommands {
         },
 
         {
-            id: 'cursorHome',
+            id: 'cursorTop',
             label: "Move to the beginning of buffer"
         },
 
