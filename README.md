@@ -71,3 +71,50 @@ Create a npm user and login to the npm registry, [more on npm publishing](https:
 Publish packages with lerna to update versions properly across local packages, [more on publishing with lerna](https://github.com/lerna/lerna#publish).
 
     npx lerna publish
+    
+### Operation
+Use Shift+DEL to cut to clipboard, Shift+Insert to paste from clipboard.
+
+### Move command
+|Command | Desc |
+|--------|------|
+| `C-f` | Move forward |
+| `C-b` | Move backward |
+| `M-n` | Move to the next line (C+n - new tab in browser)|
+| `C-p` | Move to the previous line |
+| `C-a` | Move to the beginning of line |
+| `C-e` | Move to the end of line |
+| `M-f` | Move forward by one word unit |
+| `M-b` | Move backward by one word unit |
+| `M->` | Move to the end of buffer |
+| `M-<` | Move to the beginning of buffer |
+| `C-v` | Scroll down by one screen unit |
+| `M-v` | Scroll up by one screen unit |
+| `M-g g` | Jump to line (command palette) |
+
+
+### Search Command
+|Command | Desc |
+|--------|------|
+| `C-s` | Search forward |
+| `C-r` | Search backward |
+| `C-M-n` | Add selection to next find match |
+
+### Edit command
+|Command | Desc |
+|--------|------|
+| `C-d` | Delete right (DEL) |
+| `C-h` | Delete left (BACKSPACE) |
+| `M-d` | Delete word |
+| `C-k` | Kill to line end |
+| `C-x h`| Select All |
+| `C-x u (C-/)`| Undo |
+| `C-;` | Toggle line comment in and out |
+| `M-;` | Toggle region comment in and out |
+
+### Other command
+|Command | Desc |
+|--------|------|
+| `M-x` | Open command palette |
+| `C-x C-s` | Save |
+| `C-x b` | QuickOpen a file |
